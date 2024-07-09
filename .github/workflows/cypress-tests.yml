@@ -19,7 +19,9 @@ jobs:
           npx cypress install
 
       - name: Ensure Cypress has execution permissions
-        run: chmod +x node_modules/.bin/cypress
+        run: |
+          chmod +x node_modules/.bin/cypress
+          chmod +x $(npm bin)/cypress
 
       - name: Run Cypress tests
         run: npx cypress run
