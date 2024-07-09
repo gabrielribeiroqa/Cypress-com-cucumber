@@ -7,13 +7,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get code
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4
 
-      - name: install dependencies
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+
+      - name: Install Cypress globally
+        run: npm install -g cypress
+
+      - name: Install dependencies
         run: npm install
 
       - name: Run E2E tests
-        run: npx cypress run
-       
-
-    
+        run: cypress run
