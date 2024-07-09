@@ -10,11 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get code
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: install dependencies
-        run: npm install
+      - name: Install Cypress dependencies
+        run: |
+          npm install
+          npx cypress install
 
       - name: Ensure Cypress has execution permissions
         run: chmod +x node_modules/.bin/cypress
