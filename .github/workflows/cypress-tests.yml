@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main  
-
 jobs:
   cypress-tests:
     runs-on: ubuntu-latest
@@ -17,11 +16,10 @@ jobs:
         run: npm install
 
       - name: Run Cypress tests
-        run: |
-          npm run cy:run  # ou o comando específico para executar Cypress
+        run: npx cypress run 
 
       - name: List JSON reports
-        run: ls cypress/relatorio/.jsons/*.json || echo "No JSON reports found"
+        run: ls cypress/relatorio/*.json || echo "No JSON reports found"
 
       - name: Generate HTML report
         run: npm run cy:report  
