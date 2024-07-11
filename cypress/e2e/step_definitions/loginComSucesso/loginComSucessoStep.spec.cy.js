@@ -10,15 +10,6 @@ beforeEach(()=>{
     cy.visit('/')
 })
 
-/*
- Cenário: LOGIN COM SUCESSO
-  Dado Que acesso a aplicacao
-  Quando  Preencho as credenciais de login corretamente
-  Entao  Realizo o login com sucesso
- 
-  Resultado Esperado: É para permitir fazer login 
-*/
-
 Given('Que acesso a aplicacao', () => {
 	return true;
 })
