@@ -1,4 +1,4 @@
-# Cypress-cucumber-pipeline
+# Cypress-com-cucumber
    Criei este projeto com Cypress, utilizando Cucumber, Gherkin e seguindo as melhores práticas. Também desenvolvi uma pipeline para ele. <br>
    Quando baixar o projeto, é necessário executar o comando: npm install <br>
    Para executar o projeto no modo interativo, basta executar este comando: npx cypress open <br>
