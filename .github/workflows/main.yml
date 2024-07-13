@@ -25,11 +25,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cypress-
 
-      - name: Install Dependencies
-        run: npm install
-
       - name: Install the Cypress 
         run: npm install cypress
+
+      - name: Install Dependencies
+        run: npm install
 
       - name: Run E2E Tests
         run: npx cypress run --browser chrome
