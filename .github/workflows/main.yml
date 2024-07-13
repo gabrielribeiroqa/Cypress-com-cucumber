@@ -1,58 +1,24 @@
-name: Cypress Tests
-
+name: End-to-end tests
 on: push
-
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      # Install npm dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
 
-      - name: Cache node_modules
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node_modules-
-
-      - name: Cache Cypress binary
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/Cypress
-          key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-cypress-
-
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Grant execute permissions for Cypress
-        run: chmod +x ./node_modules/.bin/cypress
-
-      - name: Install Cypress binary
-        run: npx cypress install
-
-      - name: List Files for Debugging
-        run: |
-          echo "Listing cypress/support/pages"
-          ls -l cypress/support/pages
-
-      - name: Run Headless Tests
-        run: npx cypress run --browser chrome
-
-      - name: Upload Cypress Screenshots
-        uses: actions/upload-artifact@v4
+        # add the line below to store screenshots only on failures
+        if: failure()
         with:
           name: cypress-screenshots
           path: cypress/screenshots
-          if-no-files-found: ignore
-
-      - name: Upload Cypress Videos
-        uses: actions/upload-artifact@v4
+          if-no-files-found: ignore 
+      - uses: actions/upload-artifact@v4
         with:
           name: cypress-videos
           path: cypress/videos
-          if-no-files-found: ignore
+          if-no-files-found: ignore 
