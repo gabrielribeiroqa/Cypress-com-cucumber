@@ -15,7 +15,7 @@ Given('Que acesso a aplicacao', () => {
 })
 
 When('Preencho as credenciais de login corretamente {string} e {string}', (usuario,senha) => {
-    cy.login(usuario, senha)
+    cy.login(usuario, senha, teste)
     loginPage.botaoEntrar()
 })
 
