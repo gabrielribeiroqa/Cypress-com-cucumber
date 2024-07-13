@@ -1,17 +1,50 @@
-name: End-to-end tests
+name: Cypress Tests
+
 on: push
+
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Cypress run
-        run: npx cypress run
 
-        # add the line below to store screenshots only on failures
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-
+
+      - name: Cache Cypress binary
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-cypress-
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Grant execute permissions for Cypress
+        run: chmod +x ./node_modules/.bin/cypress
+
+      - name: Install Cypress binary
+        run: npx cypress install
+
+      - name: List Files for Debugging
+        run: |
+          echo "Listing cypress/e2e/step_definitions/loginComSucesso"
+          ls -l cypress/e2e/step_definitions/loginComSucesso
+          echo "Listing cypress/support/pages"
+          ls -l cypress/support/pages
+
+      - name: Run Headless Tests
+        run: npx cypress run --browser chrome
+
+          # add the line below to store screenshots only on failures
         if: failure()
         with:
           name: cypress-screenshots
