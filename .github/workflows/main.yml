@@ -10,14 +10,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Etapa para instalar o Cypress
-      - name: Ensure Cypress binary is installed
-        run: npm install cypress 
-
-      # Etapa para instalar as dependências do projeto
-      - name: Install Dependencies
-        run: npm install
-
       # Etapa para armazenar em cache os node_modules
       - name: Cache node_modules
         uses: actions/cache@v3
@@ -35,6 +27,14 @@ jobs:
           key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-cypress-
+
+      # Etapa para instalar as dependências do projeto
+      - name: Install Dependencies
+        run: npm install
+
+      # Etapa para instalar o Cypress
+      - name: Install Cypress
+        run: npm install cypress
 
       # Etapa para garantir permissões de execução para o Cypress
       - name: Grant execute permissions for Cypress
