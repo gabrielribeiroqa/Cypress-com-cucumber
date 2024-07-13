@@ -11,7 +11,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Etapa para fazer cache da pasta node_modules para agilizar execuções futuras
+      # Etapa para instalar o Cypress
+      - name: Install Cypress
+        run: npm install cypress
+
+      # Etapa para fazer cache da pasta node_modules
       - name: Cache node_modules
         uses: actions/cache@v3
         with:
@@ -20,7 +24,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node_modules-
 
-      # Etapa para fazer cache do binário do Cypress para agilizar execuções futuras
+      # Etapa para fazer cache do binário do Cypress
       - name: Cache Cypress binary
         uses: actions/cache@v3
         with:
@@ -41,32 +45,23 @@ jobs:
       - name: Install Cypress binary
         run: npx cypress install
 
-      # Etapa para listar arquivos para depuração
-      - name: List Files for Debugging
-        run: |
-          echo "Listando cypress/e2e/step_definitions/loginComSucesso"
-          ls -l cypress/e2e/step_definitions/loginComSucesso
-          echo "Listando cypress/support/pages"
-          ls -l cypress/support/pages
-
-      # Nova etapa para listar arquivos em support/pages
+      # Etapa para listar arquivos em support/pages
       - name: List Files in Support Pages
         run: ls -l cypress/support/pages
 
-      # Etapa para executar os testes do Cypress em modo headless
+      # Etapa para executar os testes em modo headless
       - name: Run Headless Tests
         run: npx cypress run
 
-      # Etapa para enviar capturas de tela do Cypress em caso de falha
-      - name: Upload Cypress Screenshots on Failure
-        if: failure()
+      # Etapa para gerar as capturas de tela dos testes
+      - name: Upload Cypress Screenshots
         uses: actions/upload-artifact@v4
         with:
           name: cypress-screenshots
           path: cypress/screenshots
-          if-no-files-found: ignore 
+          if-no-files-found: ignore
 
-      # Etapa para enviar os vídeos do Cypress
+      # Etapa para gerar os vídeos dos testes
       - name: Upload Cypress Videos
         uses: actions/upload-artifact@v4
         with:
