@@ -8,20 +8,34 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Application
+        run: npm run build
+
+      - name: Start Application
+        run: npm start &
+        env:
+          CI: true
+
+      - name: Wait for Application to Start
+        run: sleep 10 
+
+      - name: Run E2E Tests
+        run: npx cypress run --browser chrome
+
+      - name: Upload Cypress Screenshots
+        uses: actions/upload-artifact@v4
         with:
-          build: npm run build
-          start: npm start
-          browser: chrome
           name: cypress-screenshots
           path: cypress/screenshots
-          if-no-files-found: ignore # 'warn' or 'error' are also available, defaults to `warn`
-      - uses: actions/upload-artifact@v4
+          if-no-files-found: ignore 
+
+      - name: Upload Cypress Videos
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-videos
           path: cypress/videos
-          if-no-files-found: ignore # 'warn' or 'error' are also available, defaults to `warn`
-          
+          if-no-files-found: ignore
