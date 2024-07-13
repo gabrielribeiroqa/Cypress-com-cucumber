@@ -5,10 +5,13 @@ on: push
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+
     steps:
+      # Checkout do código do repositório
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Armazenamento em cache dos módulos node_modules
       - name: Cache node_modules
         uses: actions/cache@v3
         with:
@@ -17,6 +20,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node_modules-
 
+      # Armazenamento em cache do binário do Cypress
       - name: Cache Cypress binary
         uses: actions/cache@v3
         with:
@@ -25,15 +29,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cypress-
 
+      # Instalação das dependências do projeto
       - name: Install Dependencies
         run: npm ci
 
+      # Conceder permissões de execução para o Cypress
       - name: Grant execute permissions for Cypress
         run: chmod +x ./node_modules/.bin/cypress
 
+      # Instalação do binário do Cypress
       - name: Install Cypress binary
         run: npx cypress install
 
+      # Listagem de arquivos como depuração
       - name: List Files for Debugging
         run: |
           echo "Listing cypress/e2e/step_definitions/loginComSucesso"
@@ -41,9 +49,11 @@ jobs:
           echo "Listing cypress/support/pages"
           ls -l cypress/support/pages
 
+      # Execução dos testes em modo headless
       - name: Run Headless Tests
         run: npx cypress run --browser chrome
 
+      # Envio de screenshots do Cypress como artefato
       - name: Upload Cypress Screenshots
         uses: actions/upload-artifact@v4
         with:
@@ -51,6 +61,7 @@ jobs:
           path: cypress/screenshots
           if-no-files-found: ignore
 
+      # Envio de vídeos do Cypress como artefato
       - name: Upload Cypress Videos
         uses: actions/upload-artifact@v4
         with:
