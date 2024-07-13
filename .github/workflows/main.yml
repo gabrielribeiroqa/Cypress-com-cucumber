@@ -10,6 +10,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Etapa para instalar as dependências do projeto
+      - name: Install Dependencies
+        run: npm ci
+
       # Etapa para armazenar em cache os node_modules
       - name: Cache node_modules
         uses: actions/cache@v3
@@ -28,17 +32,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cypress-
 
-      # Etapa para instalar as dependências do projeto
-      - name: Install Dependencies
-        run: npm install
-
-      # Etapa para instalar o Cypress
-      - name: Install Cypress
-        run: npm install cypress
-
       # Etapa para garantir permissões de execução para o Cypress
       - name: Grant execute permissions for Cypress
         run: chmod +x ./node_modules/.bin/cypress
+
+      # Etapa para garantir que o binário do Cypress esteja instalado
+      - name: Install Cypress binary
+        run: npm install cypress
 
       # Etapa para rodar os testes em Headless no navegador Chrome
       - name: Run Headless Tests
