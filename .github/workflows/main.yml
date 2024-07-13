@@ -12,8 +12,8 @@ jobs:
 
       # Etapa para instalar o Cypress
       - name: Ensure Cypress binary is installed
-        run: npm cypress install
-        
+        run: npm install cypress 
+
       # Etapa para instalar as dependências do projeto
       - name: Install Dependencies
         run: npm install
