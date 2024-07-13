@@ -6,9 +6,11 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
     steps:
+      # Etapa para fazer checkout do código
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Etapa para armazenar em cache os node_modules
       - name: Cache node_modules
         uses: actions/cache@v3
         with:
@@ -17,6 +19,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node_modules-
 
+      # Etapa para armazenar em cache o binário do Cypress
       - name: Cache Cypress binary
         uses: actions/cache@v3
         with:
@@ -25,18 +28,23 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cypress-
 
-      - name: Install the Cypress 
+      # Etapa para instalar o Cypress
+      - name: Install Cypress
         run: npm install cypress
 
+      # Etapa para instalar as dependências do projeto
       - name: Install Dependencies
         run: npm install
 
+      # Etapa para garantir permissões de execução para o Cypress
       - name: Grant execute permissions for Cypress
         run: chmod +x ./node_modules/.bin/cypress
 
+      # Etapa para rodar os testes E2E no navegador Chrome
       - name: Run E2E Tests
         run: npx cypress run --browser chrome
 
+      # Etapa para fazer o upload das screenshots do Cypress
       - name: Upload Cypress Screenshots
         uses: actions/upload-artifact@v4
         with:
@@ -44,6 +52,7 @@ jobs:
           path: cypress/screenshots
           if-no-files-found: ignore
 
+      # Etapa para fazer o upload dos vídeos do Cypress
       - name: Upload Cypress Videos
         uses: actions/upload-artifact@v4
         with:
