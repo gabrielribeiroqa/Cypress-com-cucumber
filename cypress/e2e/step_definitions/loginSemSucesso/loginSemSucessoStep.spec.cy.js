@@ -2,6 +2,7 @@
 /// <reference types="cypress" />
 
 import loginPage from "../../../support/pages/loginPage"
+console.log("loginPage module:", loginPage)
 
 import { Given, When, Then, } from "cypress-cucumber-preprocessor/steps"
 

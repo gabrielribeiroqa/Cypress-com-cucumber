@@ -6,15 +6,9 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
     steps:
-      # Etapa para fazer checkout do código
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Etapa para instalar as dependências do projeto
-      - name: Install Dependencies
-        run: npm ci
-
-      # Etapa para armazenar em cache os node_modules
       - name: Cache node_modules
         uses: actions/cache@v3
         with:
@@ -23,7 +17,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node_modules-
 
-      # Etapa para armazenar em cache o binário do Cypress
       - name: Cache Cypress binary
         uses: actions/cache@v3
         with:
@@ -32,19 +25,25 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cypress-
 
-      # Etapa para garantir permissões de execução para o Cypress
+      - name: Install Dependencies
+        run: npm ci
+
       - name: Grant execute permissions for Cypress
         run: chmod +x ./node_modules/.bin/cypress
 
-      # Etapa para garantir que o binário do Cypress esteja instalado
       - name: Install Cypress binary
-        run: npm install cypress
+        run: npx cypress install
 
-      # Etapa para rodar os testes em Headless no navegador Chrome
+      - name: List Files for Debugging
+        run: |
+          echo "Listing cypress/e2e/step_definitions/loginComSucesso"
+          ls -l cypress/e2e/step_definitions/loginComSucesso
+          echo "Listing cypress/support/pages"
+          ls -l cypress/support/pages
+
       - name: Run Headless Tests
         run: npx cypress run --browser chrome
 
-      # Etapa para fazer o upload das screenshots do Cypress
       - name: Upload Cypress Screenshots
         uses: actions/upload-artifact@v4
         with:
@@ -52,7 +51,6 @@ jobs:
           path: cypress/screenshots
           if-no-files-found: ignore
 
-      # Etapa para fazer o upload dos vídeos do Cypress
       - name: Upload Cypress Videos
         uses: actions/upload-artifact@v4
         with:
