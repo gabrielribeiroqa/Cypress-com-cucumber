@@ -51,7 +51,7 @@ jobs:
 
       # Etapa para executar os testes em modo headless
       - name: Run Headless Tests
-        run: npx cypress run
+        run: npx cypress run --browser chrome
 
       # Etapa para gerar as capturas de tela dos testes
       - name: Upload Cypress Screenshots
