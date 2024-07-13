@@ -42,7 +42,7 @@ jobs:
           ls -l cypress/support/pages
 
       - name: Run Headless Tests
-        run: npx cypress run --browser chrome
+        run: npx cypress run
 
           # add the line below to store screenshots only on failures
         if: failure()
