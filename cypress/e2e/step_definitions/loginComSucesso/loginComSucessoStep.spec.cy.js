@@ -2,7 +2,7 @@
 /// <reference types="cypress" />
 
 
-import loginPage from "../../../support/pages/loginPage"
+import loginPage from "../../../support/pages/LoginPage"
 
 import { Given, When, Then, } from "cypress-cucumber-preprocessor/steps"
 

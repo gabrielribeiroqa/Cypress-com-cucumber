@@ -49,6 +49,10 @@ jobs:
           echo "Listando cypress/support/pages"
           ls -l cypress/support/pages
 
+      # Nova etapa para listar arquivos em support/pages
+      - name: List Files in Support Pages
+        run: ls -l cypress/support/pages
+
       # Etapa para executar os testes do Cypress em modo headless
       - name: Run Headless Tests
         run: npx cypress run
