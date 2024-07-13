@@ -21,7 +21,7 @@ When('Tento logar com usuario {string} preenchido corretamente e senha vazia {st
         loginPage.botaoEntrar()
         loginPage.validarMensagemSenhaObrigatoria()
         cy.screenshot()
-        cy.reload()       
+        cy.reload()     
 })
 
 When('Tento logar com usuario vazio {string}e senha {string} preenchida corretamente', (usuario, senha) => {
@@ -42,8 +42,7 @@ When('Tento logar com usuario {string} preenchido corretamente e senha incorreta
     loginPage.botaoEntrar()
     loginPage.validarMensagemSenhaIncorreta()
     cy.screenshot()
-    cy.reload()
-    
+    cy.reload() 
 });
 
 
